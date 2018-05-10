@@ -24,6 +24,9 @@ addMTime add fmt loc = addInfoToFilePath add (getTimestamp fmt loc)
 -- * Getters: Getting file information
 type Getter = FilePath -> IO String
 
+getConst :: String -> FilePath -> IO String
+getConst s _ = return s
+
 getTimestamp :: FormatString -> TimeLocale -> FilePath -> IO String
 getTimestamp fmt loc fp = formatTime loc fmt <$> getModificationTime fp
 
