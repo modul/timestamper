@@ -15,12 +15,16 @@ separationChar = "-"
 type FormatString = String
 
 -- * Adding meta information to file paths
+type AddMeta = Adder -> FilePath -> IO FilePath
 
-addInfoToFilePath :: Adder -> Getter -> FilePath -> IO FilePath
-addInfoToFilePath add get fp = add fp <$> get fp
+addString :: String -> AddMeta
+addString s = addInfoToFilePath (getConst s)
 
-addMTime :: Adder -> FormatString -> TimeLocale -> FilePath -> IO FilePath
-addMTime add fmt loc = addInfoToFilePath add (getTimestamp fmt loc)
+addMTime :: FormatString -> TimeLocale -> AddMeta
+addMTime fmt loc = addInfoToFilePath (getTimestamp fmt loc)
+
+addInfoToFilePath :: Getter -> AddMeta
+addInfoToFilePath get add fp = add fp <$> get fp
 
 -- * Getters: Getting file information
 type Getter = FilePath -> IO String
