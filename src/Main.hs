@@ -8,6 +8,7 @@ import Data.Time.Format
 -- * Defaults 
 
 defaultFormat = "%y%m%d-%H%M%S"
+separationChar = "-"
 
 -- * Types
 
@@ -34,11 +35,11 @@ getTimestamp fmt loc fp = formatTime loc fmt <$> getModificationTime fp
 type Adder = FilePath -> String -> FilePath
 
 prepend :: FilePath -> String -> FilePath
-prepend f s = dir </> s ++ "-" ++ name
+prepend f s = dir </> s ++ separationChar ++ name
     where (dir, name) = splitFileName f
 
 append :: FilePath -> String -> FilePath
-append f s = name ++ "-" ++ s <.> ext
+append f s = name ++ separationChar ++ s <.> ext
     where (name, ext) = splitExtension f
 
 -- * Main
