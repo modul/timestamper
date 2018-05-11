@@ -8,12 +8,17 @@ import Data.Time.Format
 import Data.Data
 
 -- * Defaults 
-
 defaultFormat = "%y%m%d-%H%M%S"
 separationChar = "-"
 
--- * Types
+-- * Utilities
+format :: FormatTime t => String -> t -> String
+format = formatTime defaultTimeLocale
 
+utcToLocal :: IO (UTCTime -> ZonedTime)
+utcToLocal = utcToZonedTime <$> getCurrentTimeZone
+
+-- * Types
 type FormatString = String
 data TimestampSource = TimeFileModified | CurrentTime deriving (Show, Data)
 
@@ -23,15 +28,15 @@ type AddMeta = Adder -> FilePath -> IO FilePath
 addString :: String -> AddMeta
 addString s = addInfoToFilePath (getConst s)
 
-addTimestamp :: TimestampSource -> FormatString -> TimeLocale -> AddMeta
-addTimestamp src fmt loc = addInfoToFilePath $ uncurry (get src) (fmt, loc)
+addTimestamp :: TimestampSource -> FormatString -> AddMeta
+addTimestamp src fmt = addInfoToFilePath $ (get src) fmt
     where get TimeFileModified = getModTimestamp 
           get CurrentTime = getCurrentTimestamp
 
-addModTime :: FormatString -> TimeLocale -> AddMeta
+addModTime :: FormatString -> AddMeta
 addModTime = addTimestamp TimeFileModified
 
-addCurTime :: FormatString -> TimeLocale -> AddMeta
+addCurTime :: FormatString -> AddMeta
 addCurTime = addTimestamp CurrentTime 
 
 addInfoToFilePath :: Getter -> AddMeta
@@ -43,11 +48,11 @@ type Getter = FilePath -> IO String
 getConst :: String -> FilePath -> IO String
 getConst s _ = return s
 
-getModTimestamp :: FormatString -> TimeLocale -> FilePath -> IO String
-getModTimestamp fmt loc fp = formatTime loc fmt <$> getModificationTime fp
+getModTimestamp :: FormatString -> FilePath -> IO String
+getModTimestamp fmt fp = format fmt <$> (utcToLocal <*> getModificationTime fp)
 
-getCurrentTimestamp :: FormatString -> TimeLocale -> FilePath -> IO String
-getCurrentTimestamp fmt loc _ = formatTime loc fmt <$> getCurrentTime 
+getCurrentTimestamp :: FormatString -> FilePath -> IO String
+getCurrentTimestamp fmt _ = format fmt <$> getCurrentTime
 
 -- * Adders: adding strings to file paths 
 type Adder = FilePath -> String -> FilePath
