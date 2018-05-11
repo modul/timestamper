@@ -2,8 +2,9 @@
 module Options (Options(..), getOpts) where
 
 import System.Console.CmdArgs.Implicit
-import Paths_addname
+
 import Data.Version
+import Paths_timestamper
 
 data Options = Options {
                } deriving (Show, Data, Typeable)

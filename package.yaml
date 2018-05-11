@@ -1,8 +1,8 @@
-name:                addname
+name:                timestamper
 version:             0.1.0.0
 #synopsis:
 #description:
-homepage:            https://github.com/modul/addname#readme
+homepage:            https://github.com/modul/timestamper#readme
 license:             BSD3
 author:              Remo Giermann
 maintainer:          mo@liberejo.de
@@ -18,7 +18,7 @@ dependencies:
   - filepath
 
 executables:
-  addtime:
+  timestamper:
     source-dirs:      src
     main:             Main.hs
     dependencies:     cmdargs
