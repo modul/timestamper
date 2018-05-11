@@ -50,4 +50,5 @@ append f s = name ++ separationChar ++ s <.> ext
 
 main :: IO ()
 main = do
-  putStrLn "hello world"
+    opts <- getOpts 
+    putStrLn "Hello world!"

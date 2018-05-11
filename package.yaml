@@ -21,3 +21,4 @@ executables:
   addtime:
     source-dirs:      src
     main:             Main.hs
+    dependencies:     cmdargs
