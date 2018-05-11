@@ -4,7 +4,7 @@ module Options (Options(..), getOpts) where
 import System.Console.CmdArgs.Implicit
 
 import Data.Version
-import Paths_timestamper
+--import Paths_timestamper
 
 data Options = Options {
                } deriving (Show, Data, Typeable)
@@ -14,7 +14,7 @@ options = Options {
             height = 40 &= help "Display height (default: 40)",
             fps    = 30 &= help "Display speed (default: 30)"
 -}            
-          } &= program "addname"
-            &= summary ("addname v" ++ showVersion version)
+          } &= program "timestamper"
+--            &= summary ("timestamper v" ++ showVersion version)
 
 getOpts = cmdArgs options
