@@ -1,9 +1,11 @@
+{-# LANGUAGE DeriveDataTypeable #-}
 module Filename where
 
 import System.Directory
 import System.FilePath.Posix
 import Data.Time
 import Data.Time.Format
+import Data.Data
 
 -- * Defaults 
 
@@ -13,7 +15,7 @@ separationChar = "-"
 -- * Types
 
 type FormatString = String
-data TimestampSource = TimeFileModified | CurrentTime deriving Show
+data TimestampSource = TimeFileModified | CurrentTime deriving (Show, Data)
 
 -- * Adding meta information to file paths
 type AddMeta = Adder -> FilePath -> IO FilePath

@@ -6,5 +6,4 @@ import Options
 
 main :: IO ()
 main = do
-    opts <- getOpts 
-    putStrLn "Hello world!"
+    print =<< getOpts 
