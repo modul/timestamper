@@ -2,33 +2,34 @@
 module Options (Options(..), getOpts) where
 
 import System.Console.CmdArgs.Implicit
-import qualified Filename as FN
 import System.FilePath.Posix
-
 import Data.Version
---import Paths_timestamper
+import Paths_timestamper
+
+import Stamp
 
 data Options = Options {
-                addTimestamp :: Bool,
-                addString :: Bool,              
-                prepend :: Bool,
-                append :: Bool,
-                timestampSource :: FN.TimestampSource,
-                timestampFormat :: FN.FormatString,
-                string :: String,
+                source :: TimestampSource,
+                format :: TimestampFormat,
+                placement :: Placement,
+                before :: String,
+                after :: String,
                 files :: [FilePath]
                } deriving (Show, Data, Typeable)
 
 options = Options {
-            addTimestamp = True &= help "add timestamp to given file(s) (default: True)",
-            addString = False &= help "add a constant text to given file(s) (default: False)",
-            prepend = True &= help "prepend to filename (default: True)",
-            append = False &= help "append to filename (default: False)",
-            timestampSource = FN.TimeFileModified &= help "source for timestamp: TimeFileModified (default) or CurrentTime",
-            timestampFormat = FN.defaultFormat &= help ("timestamp format (default: " ++ FN.defaultFormat ++ ")"),
-            string = "" &= help "constant text to add to filename (default: '')",
-            files = def &= typFile &= args
+            source = TimeFileModified &= help "source of timestamp: TimeFileModified (default) or TimeNow",
+            format = defaultFormat &= help ("timestamp format (default: " ++ defaultFormat ++ ")"),
+            placement = Before &= help "timestamp placement: Before (default) or After filename",
+            before = "" &= help "optional text before filename",
+            after = "" &= help "optional text after filename",
+            files = def &= typFile &= args 
           } &= program "timestamper"
---            &== summary ("timestamper v" ++ showVersion version)
+            &= helpArg [name "h"]
+            &= versionArg [name "v"]
+            &= summary ("timestamper v" ++ showVersion version)
+            &= details ["Add timestamps and optional text to one or more files.\n",
+                        "The result will look like this:",
+                        "   /path/to/[TIME-][TEXT-]filename[-TEXT][-TIME].ext"]
 
 getOpts = cmdArgs options
