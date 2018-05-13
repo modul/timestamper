@@ -13,8 +13,8 @@ data Options = Options {
                 source :: TimestampSource,
                 format :: TimestampFormat,
                 placement :: Placement,
-                before :: String,
-                after :: String,
+                textBefore :: String,
+                textAfter :: String,
                 files :: [FilePath]
                } deriving (Show, Data, Typeable)
 
@@ -22,9 +22,11 @@ options = Options {
             dry = False &= help "don't do anything, just print actions" &= name "n",
             source = TimeFileModified &= help "source of timestamp: TimeFileModified (default) or TimeNow",
             format = defaultFormat &= help ("timestamp format (default: " ++ defaultFormat ++ ")"),
-            placement = Before &= help "timestamp placement: Before (default) or After filename",
-            before = "" &= help "optional text before filename",
-            after = "" &= help "optional text after filename",
+            placement = enum [
+                Before &= help "put timestamp before the filename (default)", 
+                After &= help "put timestamp after the filename"],
+            textBefore = "" &= help "optional text before filename", 
+            textAfter = "" &= help "optional text after filename",
             files = def &= typFile &= args 
           } &= program "timestamper"
             &= helpArg [name "h"]
@@ -33,7 +35,7 @@ options = Options {
             &= details ["Examples:",
                         "  timestamper -v -s TimeNow basic.txt",
                         "  basic.txt -> 180513-1753-basic.txt",
-                        "\n  timestamper -v -p After -b Test package.yaml",
+                        "\n  timestamper -v -a --textbefore Test package.yaml",
                         "  package.yaml -> Test-package-180510-1512.yaml"]
             &= verbosity
 
