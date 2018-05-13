@@ -28,10 +28,13 @@ options = Options {
             files = def &= typFile &= args 
           } &= program "timestamper"
             &= helpArg [name "h"]
-            &= versionArg [name "v"]
+            &= help "Add a timestamp (file modified or current time) and optional text to one or more file paths. Works on files and directories."
             &= summary ("timestamper v" ++ showVersion version)
-            &= details ["Add timestamps and optional text to one or more files.\n",
-                        "The result will look like this:",
-                        "   /path/to/[TIME-][TEXT-]filename[-TEXT][-TIME].ext"]
+            &= details ["Examples:",
+                        "  timestamper -v -s TimeNow basic.txt",
+                        "  basic.txt -> 180513-1753-basic.txt",
+                        "\n  timestamper -v -p After -b Test package.yaml",
+                        "  package.yaml -> Test-package-180510-1512.yaml"]
+            &= verbosity
 
 getOpts = cmdArgs options
