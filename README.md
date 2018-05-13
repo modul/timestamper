@@ -1,2 +1,2 @@
 # timestamper
-Adding timestamps and other info to filenames. 
+Adding timestamps to files or directories.
