@@ -1,10 +1,16 @@
 module Main where
 
+import Control.Monad
+import System.Console.CmdArgs.Verbosity
+import System.Directory
+
 import Options
 import Stamp (stamp)
 
 rename :: Bool -> FilePath -> FilePath -> IO ()
-rename dry from to = if dry then output else return ()
+rename dry from to = do
+    loud <- isLoud
+    when (dry || loud) output
     where output = putStrLn (from ++ " -> " ++ to)
 
 -- * Main
