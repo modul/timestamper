@@ -21,7 +21,7 @@ import Data.Data
 -- * Defaults 
 -- Default timestamp format.
 defaultFormat :: TimestampFormat
-defaultFormat = "%y%m%d-%H%M%S"
+defaultFormat = "%y%m%d-%H%M"
 separationChar = "-"
 
 -- * Utilities
