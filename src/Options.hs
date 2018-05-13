@@ -9,6 +9,7 @@ import Paths_timestamper
 import Stamp
 
 data Options = Options {
+                dry :: Bool,
                 source :: TimestampSource,
                 format :: TimestampFormat,
                 placement :: Placement,
@@ -18,6 +19,7 @@ data Options = Options {
                } deriving (Show, Data, Typeable)
 
 options = Options {
+            dry = False &= help "don't do anything, just print actions" &= name "n",
             source = TimeFileModified &= help "source of timestamp: TimeFileModified (default) or TimeNow",
             format = defaultFormat &= help ("timestamp format (default: " ++ defaultFormat ++ ")"),
             placement = Before &= help "timestamp placement: Before (default) or After filename",
