@@ -11,6 +11,7 @@ rename :: Bool -> FilePath -> FilePath -> IO ()
 rename dry from to = do
     loud <- isLoud
     when (dry || loud) output
+    unless dry (renamePath from to)
     where output = putStrLn (from ++ " -> " ++ to)
 
 -- * Main
