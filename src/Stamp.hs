@@ -70,7 +70,7 @@ getModTimestamp :: TimestampFormat -> FilePath -> IO String
 getModTimestamp fmt fp = format fmt <$> (utcToLocal <*> getModificationTime fp)
 
 getCurrentTimestamp :: TimestampFormat -> FilePath -> IO String
-getCurrentTimestamp fmt _ = format fmt <$> getCurrentTime
+getCurrentTimestamp fmt _ = format fmt <$> getZonedTime
 
 -- * Stamp a file
 
