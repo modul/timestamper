@@ -22,3 +22,10 @@ executables:
     source-dirs:      src
     main:             Main.hs
     dependencies:     cmdargs
+
+tests:    
+    spec: 
+        main: Spec.hs
+        source-dirs: [src, test]
+        dependencies: [hspec, cmdargs]
+
