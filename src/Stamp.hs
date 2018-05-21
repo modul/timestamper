@@ -50,14 +50,17 @@ addToFilePath Before = prepend
 addToFilePath After = append
 
 prepend :: String -> FilePath -> FilePath
-prepend "" f = f
-prepend s f = dir </> s ++ separationChar ++ name
-    where (dir, name) = splitFileName f
+prepend s f = normalise . new $ s
+    where new "" = f
+          new s = dir </> s ++ separationChar ++ name
+          (dir, name) = splitFileName . dropTrailingPathSeparator $ f
 
 append :: String -> FilePath -> FilePath
-append "" f = f
-append s f = name ++ separationChar ++ s <.> ext
-    where (name, ext) = splitExtension f
+append s f = normalise . new $ s
+    where new "" = f
+          new s = dir </> name ++ separationChar ++ s <.> ext
+          (dir, basename) = splitFileName . dropTrailingPathSeparator $ f
+          (name, ext)     = splitExtension basename
 
 -- * Getting timestamps
 
