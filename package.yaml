@@ -1,13 +1,13 @@
 name:                timestamper
 version:             0.1.0.0
-#synopsis:
-#description:
+synopsis:            Adds a timestamp to file or directory names.
+description:         Commandline utility to add a timestamp and optional text to one or more file or directory names.
 homepage:            https://github.com/modul/timestamper#readme
 license:             BSD3
 author:              Remo Giermann
 maintainer:          mo@liberejo.de
 copyright:           (c) Remo Giermann
-category:            Experimental
+category:            Console, Filesystem, Tools
 extra-source-files:
 - README.md
 
